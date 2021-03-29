@@ -26,6 +26,14 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 export default class MyPlugin extends Plugin {
   settings: MyPluginSettings;
 
+  doGuts() {
+    const editTxt = this.editor.getValue();
+    const relPath: string = this.relativePath;
+    const todos = findAll(editTxt, relPath);
+    const updated = upsertAll(todos, relPath, null);
+    const newTxt = replaceAllMD(editTxt, updated);
+    this.editor.setValue(newTxt);
+  }
   async onload() {
     console.log("loading plugin");
 
@@ -33,7 +41,7 @@ export default class MyPlugin extends Plugin {
     setTaskPath(this.settings.taskPath);
 
     this.addRibbonIcon("sheets-in-box", "Task Sync", () => {
-      new Notice("Task Sync");
+      this.doGuts();
     });
 
     this.addStatusBarItem().setText("Status Bar Text");
@@ -48,12 +56,7 @@ export default class MyPlugin extends Plugin {
         let leaf = this.app.workspace.activeLeaf;
         if (leaf) {
           if (!checking) {
-            const editTxt = this.editor.getValue();
-            const relPath: string = this.relativePath;
-            const todos = findAll(editTxt, relPath);
-            const updated = upsertAll(todos, relPath, null);
-            const newTxt = replaceAllMD(editTxt, updated);
-            this.editor.setValue(newTxt);
+            this.doGuts();
           }
           return true;
         }
