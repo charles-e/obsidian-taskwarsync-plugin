@@ -32,15 +32,15 @@ export default class MyPlugin extends Plugin {
     await this.loadSettings();
     setTaskPath(this.settings.taskPath);
 
-    this.addRibbonIcon("dice", "Task Sync", () => {
+    this.addRibbonIcon("sheets-in-box", "Task Sync", () => {
       new Notice("Task Sync");
     });
 
     this.addStatusBarItem().setText("Status Bar Text");
 
     this.addCommand({
-      id: "open-sample-modal",
-      name: "Open Sample Modal",
+      id: "SynchronizeTasks",
+      name: "Synchronize Task Warrior",
       // callback: () => {
       // 	console.log('Simple Callback');
       // },
@@ -61,7 +61,7 @@ export default class MyPlugin extends Plugin {
       },
     });
 
-    this.addSettingTab(new SampleSettingTab(this.app, this));
+    this.addSettingTab(new TWarriorSettingTab(this.app, this));
 
     this.registerCodeMirror((cm: CodeMirror.Editor) => {
       console.log("codemirror", cm);
@@ -123,7 +123,7 @@ export default class MyPlugin extends Plugin {
   }
 }
 
-class SampleSettingTab extends PluginSettingTab {
+class TWarriorSettingTab extends PluginSettingTab {
   plugin: MyPlugin;
 
   constructor(app: App, plugin: MyPlugin) {
@@ -136,7 +136,7 @@ class SampleSettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Settings for my awesome plugin." });
+    containerEl.createEl("h2", { text: "Task Warrior Synch Settings" });
 
     new Setting(containerEl)
       .setName("Task Warrior Path")
