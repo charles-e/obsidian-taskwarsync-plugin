@@ -29,8 +29,8 @@ export default class MyPlugin extends Plugin {
   doGuts() {
     const editTxt = this.editor.getValue();
     const relPath: string = this.relativePath;
-    const todos = findAll(editTxt, relPath);
-    const updated = upsertAll(todos, relPath, null);
+    const todos = findAll(editTxt, null);
+    const updated = upsertAll(todos, null, null);
     const newTxt = replaceAllMD(editTxt, updated);
     this.editor.setValue(newTxt);
   }
